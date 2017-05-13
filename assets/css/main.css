@@ -2456,6 +2456,26 @@
 				width: 100%;
 			}
 
+		.image.half {
+			display: block;
+			margin: 2.5rem 0;
+			width: 100px;
+		}
+
+			.image.half:first-child {
+				margin-top: 0;
+			}
+			.image:hover img{
+				-moz-transform: scale(1.05);
+				-webkit-transform: scale(1.05);
+				-ms-transform: scale(1.05);
+				transform: scale(1.05);
+			}
+
+			.image.half img {
+				width: 100%;
+			}
+
 		.image.main {
 			display: block;
 			margin: 4rem 0;
