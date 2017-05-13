@@ -2479,7 +2479,6 @@
 		.image.main {
 			display: block;
 			margin: 4rem 0;
-			width: 100%;
 		}
 
 			.image.main:first-child {
@@ -2487,7 +2486,9 @@
 			}
 
 			.image.main img {
-				width: 100%;
+				display: block;
+   				margin: 0 auto;
+				width: 60%;
 			}
 
 		@media screen and (max-width: 736px) {
