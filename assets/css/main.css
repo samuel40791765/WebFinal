@@ -48,6 +48,14 @@
 		-webkit-text-size-adjust: none;
 	}
 
+	.deckcard{
+		display: none;
+	}
+
+	.averageelixer{
+		color:purple;
+	}
+
 /* Box Model */
 
 	*, *:before, *:after {
@@ -2459,18 +2467,20 @@
 		.image.half {
 			display: block;
 			margin: 2.5rem 0;
-			width: 100px;
+			width: 99px;
 		}
 
 			.image.half:first-child {
 				margin-top: 0;
 			}
-			.image:hover img{
+			.image.half:hover img{
 				-moz-transform: scale(1.05);
 				-webkit-transform: scale(1.05);
 				-ms-transform: scale(1.05);
 				transform: scale(1.05);
 			}
+			
+			
 
 			.image.half img {
 				width: 100%;

@@ -50,19 +50,20 @@
 									皇室戰爭!輕鬆娛樂好上手！</p>
 								</header>
 								<h2>Build your deck</h2>
-
+									<span><h2  class="averageelixer">Average Elixer Cost: None</h2></span>
+									
 									<div class="box">
 										<div class="row 50% uniform">
-											<div class="3u"><span class="image fit"><img src="images/goblin-gang.png" alt="" /></span></div>
-											<div class="3u"><span class="image fit"><img src="images/executioner.png" alt="" /></span></div>
-											<div class="3u"><span class="image fit"><img src="images/fireball.png" alt="" /></span></div>
+											<div class="3u deckcard"><span class="image fit"><img src="images/goblin-gang.png" alt="" /></span></div>
+											<div class="3u deckcard"><span class="image fit"><img src="images/executioner.png" alt="" /></span></div>
+											<div class="3u deckcard"><span class="image fit"><img src="images/fireball.png" alt="" /></span></div>
 											<!-- Break -->
-											<div class="3u$"><span class="image fit"><img src="images/furnace.png" alt="" /></span></div>
-											<div class="3u"><span class="image fit "><img src="images/goblin-barrel.png" alt="" /></span></div>
-											<div class="3u"><span class="image fit"><img src="images/graveyard.png" alt="" /></span></div>
+											<div class="3u$ deckcard"><span class="image fit"><img src="images/furnace.png" alt="" /></span></div>
+											<div class="3u deckcard"><span class="image fit "><img src="images/goblin-barrel.png" alt="" /></span></div>
+											<div class="3u deckcard"><span class="image fit"><img src="images/graveyard.png" alt="" /></span></div>
 											<!-- Break -->
-											<div class="3u"><span class="image fit"><img src="images/giant.png" alt="" /></span></div>
-											<div class="3u$"><span class="image fit"><img src="images/the-log.png" alt="" /></span></div>
+											<div class="3u deckcard"><span class="image fit"><img src="images/giant.png" alt="" /></span></div>
+											<div class="3u$ deckcard"><span class="image fit"><img src="images/the-log.png" alt="" /></span></div>
 										</div>
 									</div>
 
@@ -129,16 +130,16 @@
 								
 									<div class="box">
 										<ul class="actions">
-											<li><div class="3u"><span class="image half"><img src="images/hog-rider.png" alt="" /></span><div></li>
-											<li><div class="3u"><span class="image half"><img src="images/ice-golem.png" alt="" /></span></div></li>
-											<li><div class="3u"><span class="image half"><img src="images/sparky.png" alt="" /></span></div></li>
+											<li><div class="card"><span class="image half"><img src="images/hog-rider.png" alt="" /></span><div></li>
+											<li><div class="card"><span class="image half"><img src="images/ice-golem.png" alt="" /></span></div></li>
+											<li><div class="card"><span class="image half"><img src="images/sparky.png" alt="" /></span></div></li>
 											<!-- Break -->
-											<li><div class="3u"><span class="image half"><img src="images/princess.png" alt="" /></span></div></li>
-											<li><div class="3u"><span class="image half"><img src="images/skeleton-army.png" alt="" /></span></div></li>
-											<li><div class="3u"><span class="image half"><img src="images/tombstone.png" alt="" /></span></div></li>
+											<li><div class="card"><span class="image half"><img src="images/princess.png" alt="" /></span></div></li>
+											<li><div class="card"><span class="image half"><img src="images/skeleton-army.png" alt="" /></span></div></li>
+											<li><div class="card"><span class="image half"><img src="images/tombstone.png" alt="" /></span></div></li>
 											<!-- Break -->
-											<li><div class="3u$"><span class="image half"><img src="images/miner.png" alt="" /></span></div></li>
-											<li><div class="3u$"><span class="image half"><img src="images/minions.png" alt="" /></span></div></li>
+											<li><div class="card"><span class="image half"><img src="images/miner.png" alt="" /></span></div></li>
+											<li><div class="card"><span class="image half"><img src="images/minions.png" alt="" /></span></div></li>
 										</ul>
 									</div>
 									<form method="post" action="#">
@@ -204,6 +205,20 @@
 			<script src="assets/js/skel.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+
+			<script>
+				$( '.card').on('click', function() {
+ 				 $( this ).fadeOut("fast", function() {
+    				$( ".deckcard" ).fadeIn( "slow" );
+  					});
+				});
+
+				$( '.deckcard').on('click', function() {
+ 				 $( this ).fadeOut("fast", function() {
+    				$( ".card" ).fadeIn( "slow" );
+  					});
+				});
+			</script>
 
 	</body>
 </html>
