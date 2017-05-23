@@ -5,3 +5,4 @@ from .models import *
 
 
 admin.site.register(UpdateInfo)
+admin.site.register(card)
