@@ -5,6 +5,9 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
 {% load staticfiles %}
+add {% load i18n %}
+
+
 <html>
 	<head>
 		<title>Deck Builder</title>
@@ -55,6 +58,11 @@
 									
 									<div class="box">
 										<div class="row 50% uniform">
+											{% for card in card_list %}
+												{% if card.indeck %}
+        											<div class="3u deckcard"><span class="image fit"><img src="{% static card.ImgUrl card.id %}" alt=""></span></div>
+        										{% endif %}
+    										{% endfor %}
 											<div class="3u deckcard"><span class="image fit"><img src="{% static 'images/goblin-gang.png'%}" alt="" /></span></div>
 											<div class="3u deckcard"><span class="image fit"><img src="{% static 'images/executioner.png'%}" alt="" /></span></div>
 											<div class="3u deckcard"><span class="image fit"><img src="{% static 'images/fireball.png'%}" alt="" /></span></div>
@@ -131,16 +139,21 @@
 								
 									<div class="box">
 										<ul class="actions">
-											<li><div class="card"><span class="image half"><img src="{% static 'images/hog-rider.png'%}" alt="" /></span><div></li>
+											{% for card in card_list %}
+												{% if not card.indeck %}
+        											<li><div class="card"><span class="image half"><img src="{% static card.ImgUrl card.id %}" alt=""></span></div></li>
+        										{% endif %}
+    										{% endfor %}
+											<!-- <li><div class="card"><span class="image half"><img src="{% static 'images/hog-rider.png'%}" alt="" /></span></div></li>
 											<li><div class="card"><span class="image half"><img src="{% static 'images/ice-golem.png'%}" alt="" /></span></div></li>
 											<li><div class="card"><span class="image half"><img src="{% static 'images/sparky.png'%}" alt="" /></span></div></li>
 											<!-- Break -->
-											<li><div class="card"><span class="image half"><img src="{% static 'images/princess.png'%}" alt="" /></span></div></li>
+											<!-- <li><div class="card"><span class="image half"><img src="{% static 'images/princess.png'%}" alt="" /></span></div></li>
 											<li><div class="card"><span class="image half"><img src="{% static 'images/skeleton-army.png'%}" alt="" /></span></div></li>
 											<li><div class="card"><span class="image half"><img src="{% static 'images/tombstone.png'%}" alt="" /></span></div></li>
 											<!-- Break -->
-											<li><div class="card"><span class="image half"><img src="{% static 'images/miner.png'%}" alt="" /></span></div></li>
-											<li><div class="card"><span class="image half"><img src="{% static 'images/minions.png'%}" alt="" /></span></div></li>
+											<!-- <li><div class="card"><span class="image half"><img src="{% static 'images/miner.png'%}" alt="" /></span></div></li>
+											<li><div class="card"><span class="image half"><img src="{% static 'images/minions.png'%}" alt="" /></span></div></li> --> 
 										</ul>
 									</div>
 									<form method="post" action="#">
@@ -212,12 +225,14 @@
  				 $( this ).fadeOut("fast", function() {
     				$( ".deckcard" ).fadeIn( "slow" );
   					});
+ 				 document.location.reload(true)
 				});
 
 				$( '.deckcard').on('click', function() {
  				 $( this ).fadeOut("fast", function() {
     				$( ".card" ).fadeIn( "slow" );
   					});
+ 				 document.location.reload(true)
 				});
 			</script>
 
