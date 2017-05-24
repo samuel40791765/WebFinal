@@ -4,6 +4,7 @@
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
+
 {% load staticfiles %}
 <html>
 	<head>
@@ -55,16 +56,25 @@
 									
 									<div class="box">
 										<div class="row 50% uniform">
-											<div class="3u deckcard"><span class="image fit"><img src="{% static 'images/goblin-gang.png'%}" alt="" /></span></div>
+
+
+											{% for CardInfo in card_list %}
+												{% if CardInfo.inDeck %}
+													{% with 'images/'|add:CardInfo.idName|add:".png" as image_static %}
+	        											<div class="3u deckcard"><span class="image fit" onclick="removefromdeck({{CardInfo.id}});"><img src="{% static image_static %}" alt=""></span></div>
+	        										{% endwith %}
+        										{% endif %}
+    										{% endfor %}
+											<!-- <div class="3u deckcard"><span class="image fit"><img src="{% static 'images/goblin-gang.png'%}" alt="" /></span></div>
 											<div class="3u deckcard"><span class="image fit"><img src="{% static 'images/executioner.png'%}" alt="" /></span></div>
 											<div class="3u deckcard"><span class="image fit"><img src="{% static 'images/fireball.png'%}" alt="" /></span></div>
 											<!-- Break -->
-											<div class="3u$ deckcard"><span class="image fit"><img src="{% static 'images/furnace.png'%}" alt="" /></span></div>
+											<!-- <div class="3u$ deckcard"><span class="image fit"><img src="{% static 'images/furnace.png'%}" alt="" /></span></div>
 											<div class="3u deckcard"><span class="image fit "><img src="{% static 'images/goblin-barrel.png'%}" alt="" /></span></div>
 											<div class="3u deckcard"><span class="image fit"><img src="{% static 'images/graveyard.png'%}" alt="" /></span></div>
-											<!-- Break -->
+											
 											<div class="3u deckcard"><span class="image fit"><img src="{% static 'images/giant.png'%}" alt="" /></span></div>
-											<div class="3u$ deckcard"><span class="image fit"><img src="{% static 'images/the-log.png'%}" alt="" /></span></div>
+											<div class="3u$ deckcard"><span class="image fit"><img src="{% static 'images/the-log.png'%}" alt="" /></span></div> -->
 										</div>
 									</div>
 
@@ -131,16 +141,13 @@
 								
 									<div class="box">
 										<ul class="actions">
-											<li><div class="card"><span class="image half"><img src="{% static 'images/hog-rider.png'%}" alt="" /></span><div></li>
-											<li><div class="card"><span class="image half"><img src="{% static 'images/ice-golem.png'%}" alt="" /></span></div></li>
-											<li><div class="card"><span class="image half"><img src="{% static 'images/sparky.png'%}" alt="" /></span></div></li>
-											<!-- Break -->
-											<li><div class="card"><span class="image half"><img src="{% static 'images/princess.png'%}" alt="" /></span></div></li>
-											<li><div class="card"><span class="image half"><img src="{% static 'images/skeleton-army.png'%}" alt="" /></span></div></li>
-											<li><div class="card"><span class="image half"><img src="{% static 'images/tombstone.png'%}" alt="" /></span></div></li>
-											<!-- Break -->
-											<li><div class="card"><span class="image half"><img src="{% static 'images/miner.png'%}" alt="" /></span></div></li>
-											<li><div class="card"><span class="image half"><img src="{% static 'images/minions.png'%}" alt="" /></span></div></li>
+											{% for CardInfo in card_list %}
+												{% if not CardInfo.inDeck %}
+													{% with 'images/'|add:CardInfo.idName|add:".png" as image_static %}
+	        											<li><div class="card" onclick="deletepost({{CardInfo.id}});"><span class="image half"><img src="{% static image_static %}" alt=""></span></div></li>
+	        										{% endwith %}
+        										{% endif %}
+    										{% endfor %}
 										</ul>
 									</div>
 									<form method="post" action="#">
@@ -212,13 +219,50 @@
  				 $( this ).fadeOut("fast", function() {
     				$( ".deckcard" ).fadeIn( "slow" );
   					});
+ 				 	document.location.reload(true)
 				});
 
 				$( '.deckcard').on('click', function() {
- 				 $( this ).fadeOut("fast", function() {
-    				$( ".card" ).fadeIn( "slow" );
-  					});
+ 				 // $( this ).fadeOut("fast", function() {
+    		// 		$( ".card" ).fadeIn( "slow" );
+  				// 	});
+ 				 	document.location.reload(true)
 				});
+
+				function removefromdeck(id)
+			    {
+			    	data = {
+					    "action": "outdeck",  //It can be as deep/complex as you want. Dictionary in a dictionary in python. JSON object in JSON object in javascript.
+					   	'value':id, //Some list
+					}
+
+			        $.ajax({
+			            url: '/royal/deck/',
+			            type: "POST",
+			            "data": data,
+			            success: function(response) {
+			            },
+
+			        });
+			    }
+
+			    function deletepost(id)
+			    {
+			    	data = {
+					    "action": "todeck",  //It can be as deep/complex as you want. Dictionary in a dictionary in python. JSON object in JSON object in javascript.
+					   	'value':id, //Some list
+					}
+
+			        $.ajax({
+			            url: '/royal/deck/',
+			            type: "POST",
+			            //data: {'value':id},
+			            "data": data,
+			            success: function(response) {
+			            },
+
+			        });
+			    }
 			</script>
 
 	</body>
