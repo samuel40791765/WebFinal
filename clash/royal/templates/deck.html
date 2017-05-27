@@ -52,12 +52,10 @@
 									皇室戰爭!輕鬆娛樂好上手！</p>
 								</header>
 								<h2>Build your deck</h2>
-									<span><h2  class="averageelixer">Average Elixer Cost: None</h2></span>
+									<span><h2  class="averageelixer">Average Elixer Cost: {{ averagecost }}</h2></span>
 									
 									<div class="box">
 										<div class="row 50% uniform">
-
-
 											{% for CardInfo in card_list %}
 												{% if CardInfo.inDeck %}
 													{% with 'images/'|add:CardInfo.idName|add:".png" as image_static %}
@@ -150,19 +148,27 @@
     										{% endfor %}
 										</ul>
 									</div>
-									<form method="post" action="#">
-										<div class="field">
-											<label for="deckname">Deck Name</label>
-											<input type="text" name="name" id="name" />
-										</div>
-										<div class="field">
-											<label for="deckdescription">Deck Description</label>
-											<textarea name="message" id="message" rows="3"></textarea>
-										</div>
-										<ul class="actions">
-											<li><input type="submit" value="Save" /></li>
-										</ul>
-									</form>
+									<div>
+										{% block content %}
+										<!-- <form method="post" action="#">
+											<div class="field">
+												<label for="deckname">Deck Name</label>
+												<input type="text" name="name" id="name" />
+											</div>
+											<div class="field">
+												<label for="deckdescription">Deck Description</label>
+												<textarea name="message" id="message" rows="3"></textarea>
+											</div>
+											<ul class="actions">
+												<li><input type="submit" value="Save" /></li>
+											</ul>
+										</form> -->
+										<form method="POST" class="field">{% csrf_token %}
+										    {{ form.as_table }}
+										    <button type="submit" class="save btn btn-default">Save</button>
+										</form>
+										{% endblock %}
+									</div>
 
 
 							</section>
@@ -228,6 +234,25 @@
   				// 	});
  				 	document.location.reload(true)
 				});
+
+
+				function savedeck()
+			    {
+			    	data = {
+					    "action": "outdeck",  //It can be as deep/complex as you want. Dictionary in a dictionary in python. JSON object in JSON object in javascript.
+					   	'value':id, //Some list
+					}
+
+			        $.ajax({
+			            url: '/royal/deck/',
+			            type: "POST",
+			            "data": data,
+			            success: function(response) {
+			            },
+
+			        });
+			    }
+
 
 				function removefromdeck(id)
 			    {

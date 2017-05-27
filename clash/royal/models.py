@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.postgres.fields import ArrayField
 
 # Create your models here.
 class UpdateInfo(models.Model):
@@ -23,3 +24,10 @@ class CardInfo(models.Model):
 	def __str__(self):
 		return self.idName
 
+class Deck(models.Model):
+	cost=models.IntegerField()
+	name=models.CharField(max_length=20)
+	description = models.TextField(max_length=200)
+	board = ArrayField(models.IntegerField(blank=True),size=8)
+	def __str__(self):
+		return self.name
