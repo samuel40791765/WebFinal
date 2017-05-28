@@ -4,6 +4,13 @@
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 {% load staticfiles %}
 <html>
@@ -18,7 +25,12 @@
 
 		<!-- Wrapper -->
 			<div id="wrapper">
-
+				{% if not enough %}
+					<div class="alert alert-danger alert-dismissable" id="danger-alert">
+					  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+					  <strong>Not Enough!</strong> A deck must have 8 cards!
+					</div>
+				{% endif %}
 				<!-- Header -->
 					<header id="header">
 						<a href="index.html" class="logo">Deck Builder</a>
@@ -31,6 +43,8 @@
 							<li><a href={% url 'generic' %}>卡片介紹</a></li>
 							<li><a href={% url 'card_rank' %}>卡片排名</a></li>
 							<li class="active"><a href={% url 'deck' %}>排組組合</a></li>
+							<li><a href={% url 'mydecks' %}>我的排組組合</a></li>
+
 						</ul>
 						<ul class="icons">
 							<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
@@ -126,11 +140,11 @@
 													</div>
 													<ul class="actions">
 													<li>
-														<button id="clear" class="btn btn-primary btn-large"><i class="fa fa-minus-circle"></i> clear filters</button>
+														<button id="clear" class="btn btn-large"><i class="fa fa-minus-circle"></i> clear filters</button>
 													</li>
 													<li>
 													<div class="4u">
-														<button id="reset" class="btn btn-primary btn-large"><i class="fa fa-random"></i> reset</button>
+														<button id="reset" class="btn btn-large"><i class="fa fa-random"></i> reset</button>
 													</div>
 													</li>
 												</ul>
@@ -163,9 +177,11 @@
 												<li><input type="submit" value="Save" /></li>
 											</ul>
 										</form> -->
-										<form method="POST" class="field">{% csrf_token %}
+										<form method="POST" class="dynamic-form">
+											{% csrf_token %}
 										    {{ form.as_table }}
-										    <button type="submit" class="save btn btn-default">Save</button>
+
+										    <button type="submit" class="save btn btn-default" >Save</button>
 										</form>
 										{% endblock %}
 									</div>
@@ -236,23 +252,9 @@
 				});
 
 
-				function savedeck()
-			    {
-			    	data = {
-					    "action": "outdeck",  //It can be as deep/complex as you want. Dictionary in a dictionary in python. JSON object in JSON object in javascript.
-					   	'value':id, //Some list
-					}
-
-			        $.ajax({
-			            url: '/royal/deck/',
-			            type: "POST",
-			            "data": data,
-			            success: function(response) {
-			            },
-
-			        });
-			    }
-
+				$("#danger-alert").fadeTo(2000, 500).slideUp(500, function(){
+				    $("#danger-alert").slideUp(500);
+				});
 
 				function removefromdeck(id)
 			    {
