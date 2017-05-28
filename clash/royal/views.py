@@ -48,4 +48,6 @@ def card_rank(request):
 	return render_to_response('card_rank.html', locals())
 
 def generic(request):
-	return render_to_response('generic.html', locals())
+	card_list =  CardInfo.objects.order_by('idName')
+	context = {'card_list':card_list}
+	return render(request, 'generic.html', context)
