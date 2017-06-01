@@ -24,12 +24,15 @@ def deck(request):
 		averagecost=round(averagecost, 2)
 	else:
 		averagecost=0
+	search=SearchMethod.objects.get(id=1)
+	
 
 	if request.method == "POST":
 		checkdeck = CardInfo.objects.order_by('elixirCost')
 		currentDeck = []
 		form = DeckForm(request.POST, prefix="deck")
-		if form.is_valid() and len(Deck)== 8 and 'action' not in request.POST:
+		print(request.POST['action'])
+		if form.is_valid() and len(Deck)== 8:
 			deck=form.save(commit=False)
 			deck.cost=averagecost
 			deck.card1=Deck[0].idName
@@ -62,7 +65,15 @@ def deck(request):
 			b=CardInfo.objects.get(id=str(value))
 			b.inDeck=False
 			b.save()
-	context={'card_list':card_list,'averagecost':averagecost,'form':form,'enough':enough,}
+		elif request.POST['action']=="filter":
+			search.rarity=request.POST.get("raritySearch")
+			search.elixir=request.POST.get("elixirSearch")
+			search.arena=request.POST.get("arenaSearch")
+			search.typeof=request.POST.get("typeSearch")
+			search.save()
+
+	context={'card_list':card_list,'averagecost':averagecost,'form':form,'enough':enough,
+	'rarity':search.rarity,'elixir':search.elixir,'arena':search.arena,'typeof':search.typeof}
 	return render(request, 'deck.html', context)
 
 def mydecks(request):
@@ -78,6 +89,7 @@ def deck_edit(request,pk):
 	cost=0
 	cards=0
 	enough=True;
+	search=SearchMethod.objects.get(id=1)
 	for deckcard in card_list:
 		if deck.card1==deckcard.idName:
 			cost+=deckcard.elixirCost
@@ -226,10 +238,18 @@ def deck_edit(request,pk):
 				averagecost=0
 			deck.cost=averagecost
 			deck.save()
+		elif request.POST['action']=="filter":
+			search.rarity=request.POST.get("raritySearch")
+			search.elixir=request.POST.get("elixirSearch")
+			search.arena=request.POST.get("arenaSearch")
+			search.typeof=request.POST.get("typeSearch")
+			search.save()
+
 	else:
 		form = DeckForm(instance=deck)
 	
-	context={'form': form, 'card_list':card_list,'deck':deck,'enough':enough,}
+	context={'form': form, 'card_list':card_list,'deck':deck,'enough':enough,
+	'rarity':search.rarity,'elixir':search.elixir,'arena':search.arena,'typeof':search.typeof}
 	return render(request, 'deck_edit.html', context)
 
 

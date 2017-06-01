@@ -94,49 +94,52 @@
 										<div class="row 50% uniform">
 												<div class="3u">
 															<select id="raritySearch">
-																<option value="">filter rarity</option>
-																<option value="common">Common</option>
-																<option value="rare">Rare</option>
-																<option value="epic">Epic</option>
+																<option value="None" {% if rarity == 'None' %}selected{% endif %} >filter rarity</option>
+																<option value="Common" {% if rarity == 'Common' %}selected{% endif %} >Common</option>
+																<option value="Rare" {% if rarity == 'Rare' %}selected{% endif %}>Rare</option>
+																<option value="Epic" {% if rarity == 'Epic' %}selected{% endif %} >Epic</option>
 															</select>
 														
 													</div>
 													<div class="3u">
 							
 															<select id="typeSearch">
-																<option value="">filter type</option>
-																<option value="troop">Troop</option>
-																<option value="spell">Spell</option>
-																<option value="building">Building</option>
+																<option value="None" {% if typeof == 'None' %}selected{% endif %} >filter type</option>
+																<option value="Troop" {% if typeof == 'Troop' %}selected{% endif %}>Troop</option>
+																<option value="Spell" {% if typeof == 'Spell' %}selected{% endif %} >Spell</option>
+																<option value="Building" {% if typeof == 'Building' %}selected{% endif %}>Building</option>
 															</select>
 													
 													</div>
 													<div class="3u">
 													<select id="elixirSearch">
-														<option value="">filter elixir cost</option>
-																				<option value="1">1 Elixir</option>
-																				<option value="2">2 Elixir</option>
-																				<option value="3">3 Elixir</option>
-																				<option value="4">4 Elixir</option>
-																				<option value="5">5 Elixir</option>
-																				<option value="6">6 Elixir</option>
-																				<option value="7">7 Elixir</option>
-																				<option value="8">8 Elixir</option>
-																				<option value="9">9 Elixir</option>
-																				<option value="10">10 Elixir</option>
+													<option value="0"{% if elixir == 0 %}selected{% endif %}>filter elixir cost</option>
+													<option value="1"{% if elixir == 1 %}selected{% endif %}>1 Elixir</option>
+													<option value="2"{% if elixir == 2 %}selected{% endif %}>2 Elixir</option>
+													<option value="3"{% if elixir == 3 %}selected{% endif %}>3 Elixir</option>
+													<option value="4"{% if elixir == 4 %}selected{% endif %}>4 Elixir</option>
+													<option value="5"{% if elixir == 5 %}selected{% endif %}>5 Elixir</option>
+													<option value="6"{% if elixir == 6 %}selected{% endif %}>6 Elixir</option>
+													<option value="7"{% if elixir == 7 %}selected{% endif %}>7 Elixir</option>
+													<option value="8"{% if elixir == 8 %}selected{% endif %}>8 Elixir</option>
+													<option value="9"{% if elixir == 9 %}selected{% endif %}>9 Elixir</option>
+													<option value="10"{% if elixir == 10 %}selected{% endif %}>10 Elixir</option>
 													</select>
 													</div>
 													<div class="3u$">
 													<select id="arenaSearch">
-														<option value="">filter arena lvl</option>
-																				<option value="1">Arena 1 (and below)</option>
-																				<option value="2">Arena 2 (and below)</option>
-																				<option value="3">Arena 3 (and below)</option>
-																				<option value="4">Arena 4 (and below)</option>
-																				<option value="5">Arena 5 (and below)</option>
-																				<option value="6">Arena 6 (and below)</option>
-																				<option value="7">Arena 7 (and below)</option>
-																			</select>
+														<option value="-1"{% if arena == -1 %}selected{% endif %}>filter arena lvl</option>
+														<option value="1"{% if arena == 1 %}selected{% endif %}>Arena 1 (and below)</option>
+														<option value="2"{% if arena == 2 %}selected{% endif %}>Arena 2 (and below)</option>
+														<option value="3"{% if arena == 3 %}selected{% endif %}>Arena 3 (and below)</option>
+														<option value="4"{% if arena == 4 %}selected{% endif %}>Arena 4 (and below)</option>
+														<option value="5"{% if arena == 5 %}selected{% endif %}>Arena 5 (and below)</option>
+														<option value="6"{% if arena == 6 %}selected{% endif %}>Arena 6 (and below)</option>
+														<option value="7"{% if arena == 7 %}selected{% endif %}>Arena 7 (and below)</option>
+														<option value="8"{% if arena == 8 %}selected{% endif %}>Arena 8 (and below)</option>
+														<option value="9"{% if arena == 9 %}selected{% endif %}>Arena 9 (and below)</option>
+														<option value="10"{% if arena == 10 %}selected{% endif %}>Arena 10 (and below)</option>
+													</select>
 													</div>
 													<ul class="actions">
 													<li>
@@ -155,9 +158,17 @@
 										<ul class="actions">
 											{% for CardInfo in card_list %}
 												{% if not CardInfo.inDeck %}
+													{% if rarity == 'None' or CardInfo.rarity == rarity %}
+													{% if typeof == 'None' or CardInfo.type == typeof %}
+													{% if elixir == 0 or CardInfo.elixirCost == elixir %}
+													{% if arena == -1 or CardInfo.arena <= arena %}
 													{% with 'images/'|add:CardInfo.idName|add:".png" as image_static %}
 	        											<li><div class="card" onclick="deletepost({{CardInfo.id}});"><span class="image half"><img src="{% static image_static %}" alt=""></span></div></li>
 	        										{% endwith %}
+	        										{% endif %}
+	        										{% endif %}
+	        										{% endif %}
+	        										{% endif %}
         										{% endif %}
     										{% endfor %}
 										</ul>
@@ -237,24 +248,71 @@
 			<script src="{% static 'assets/js/main.js'%}"></script>
 
 			<script>
+				
+				 	function getCookie(name) {
+				        var cookieValue = null;
+				        if (document.cookie && document.cookie != '') {
+				            var cookies = document.cookie.split(';');
+				            for (var i = 0; i < cookies.length; i++) {
+				                var cookie = jQuery.trim(cookies[i]);
+				                // Does this cookie string begin with the name we want?
+				                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+				                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+				                    break;
+				                }
+				            }
+				        }
+				        return cookieValue;
+				    }
+				    var csrftoken = getCookie('csrftoken');
+
 				$( '.card').on('click', function() {
  				 $( this ).fadeOut("fast", function() {
     				$( ".deckcard" ).fadeIn( "slow" );
   					});
- 				 	document.location.reload(true)
+ 				 	//document.location.reload(true)
 				});
 
 				$( '.deckcard').on('click', function() {
  				 // $( this ).fadeOut("fast", function() {
     		// 		$( ".card" ).fadeIn( "slow" );
   				// 	});
- 				 	document.location.reload(true)
+ 				 	//document.location.reload(true)
 				});
+
+				$('select').on('change', function() {
+				  filter()
+				})
 
 
 				$("#danger-alert").fadeTo(2000, 500).slideUp(500, function(){
 				    $("#danger-alert").slideUp(500);
 				});
+
+				
+
+				function filter()
+			    {
+			    	info = {
+			    		"action": "filter",
+			    		"raritySearch":document.getElementById("raritySearch").value,
+			    		"typeSearch":document.getElementById("typeSearch").value,
+			    		"elixirSearch":document.getElementById("elixirSearch").value,
+			    		"arenaSearch":document.getElementById("arenaSearch").value,
+			    		'csrfmiddlewaretoken': csrftoken
+			    	}
+
+			        $.ajax({
+			            url: "{% url 'deck' %}",
+			            type: "POST",
+			            "data": info,
+			            success: function(response) {
+			            	document.location.reload(true)
+			            },
+
+			        });
+
+			    }
 
 				function removefromdeck(id)
 			    {
@@ -264,10 +322,11 @@
 					}
 
 			        $.ajax({
-			            url: '/royal/deck/',
+			            url: "{% url 'deck' %}",
 			            type: "POST",
 			            "data": data,
 			            success: function(response) {
+			            	document.location.reload(true)
 			            },
 
 			        });
@@ -281,11 +340,12 @@
 					}
 
 			        $.ajax({
-			            url: '/royal/deck/',
+			            url: "{% url 'deck' %}",
 			            type: "POST",
 			            //data: {'value':id},
 			            "data": data,
 			            success: function(response) {
+			            	document.location.reload(true)
 			            },
 
 			        });

@@ -24,6 +24,13 @@ class CardInfo(models.Model):
 	def __str__(self):
 		return self.idName
 
+class SearchMethod(models.Model):
+	rarity=models.CharField(max_length=20,default="None")
+	typeof=models.CharField(max_length=20,default="None")
+	elixir=models.IntegerField(default=0)
+	arena=models.IntegerField(default=-1)
+
+
 class Deck(models.Model):
 	cost=models.FloatField()
 	name=models.CharField(max_length=20)
