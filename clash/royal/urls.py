@@ -8,4 +8,6 @@ urlpatterns = [
     url(r'^generic/', views.generic,name='generic'),
     url(r'^mydecks/', views.mydecks,name='mydecks'),
     url(r'^deck/(?P<pk>\d+)/edit/$', views.deck_edit, name='deck_edit'),
+    url(r'^deck/(?P<pk>\d+)/delete/$', views.deck_delete, name='deck_delete'),
+    url(r'^category/(?P<category_name_url>\w+)/$', views.category, name='category'),
  ]

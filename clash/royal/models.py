@@ -6,7 +6,8 @@ class UpdateInfo(models.Model):
 	update_date = models.DateField('date published')
 	title = models.CharField(max_length=20)
 	content = models.TextField(blank=True)
-	ImgUrl = models.URLField(blank=True)
+	shoutcut = models.TextField(max_length=100, default="None")
+	ImgUrl = models.CharField(max_length=50)
 	ImgName = models.CharField(max_length=20)
 	def __str__(self):
 		return self.title

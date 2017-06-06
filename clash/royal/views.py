@@ -5,8 +5,38 @@ from .forms import *
 from .models import *
 
 # Create your views here.
+
 def index(request):
-	return render_to_response('index.html',locals())
+    # Obtain the context from the HTTP request.
+    #context = RequestContext(request)
+    firstpost=UpdateInfo.objects.order_by('update_date').reverse()[:1]
+    posts = UpdateInfo.objects.order_by('update_date').reverse()[:5]
+
+    context_dict={'firstpost':firstpost, 'posts': posts}
+	#for category in category_list:
+        #category.url = category.name.replace(' ', '_')
+
+    # Render the response and return to the client.
+    return render(request, 'index.html', context_dict)
+
+def category(request, category_name_url):
+    category_name = category_name_url
+
+    # Create a context dictionary which we can pass to the template rendering engine.
+    # We start by containing the name of the category passed by the user.
+    context_dict = {'category_name': category_name}
+
+    try:
+        
+        post = UpdateInfo.objects.get(ImgUrl=category_name)
+
+        # Adds our results list to the template context under name pages.
+        context_dict['post'] = post
+    except UpdateInfo.DoesNotExist:
+        pass
+
+    # Go render the response and return it to the client.
+    return render(request, 'category.html', context_dict)
 
 @csrf_exempt
 def deck(request):
@@ -31,7 +61,6 @@ def deck(request):
 		checkdeck = CardInfo.objects.order_by('elixirCost')
 		currentDeck = []
 		form = DeckForm(request.POST, prefix="deck")
-		print(request.POST['action'])
 		if form.is_valid() and len(Deck)== 8:
 			deck=form.save(commit=False)
 			deck.cost=averagecost
@@ -78,7 +107,7 @@ def deck(request):
 
 def mydecks(request):
 	deck_list = Deck.objects.order_by('name')
-	card_list = CardInfo.objects.order_by('id')
+	card_list = CardInfo.objects.order_by('elixirCost')
 	context={'deck_list':deck_list,'card_list':card_list}
 	return render(request, 'mydecks.html', context)
 
@@ -251,9 +280,24 @@ def deck_edit(request,pk):
 	'rarity':search.rarity,'elixir':search.elixir,'arena':search.arena,'typeof':search.typeof}
 	return render(request, 'deck_edit.html', context)
 
+def deck_delete(request,pk):
+	deck_list = Deck.objects.order_by('name')
+	card_list = CardInfo.objects.order_by('id')
+	try:
+		deck = Deck.objects.get(pk=pk)
+		deck.delete();
+		deck_list = Deck.objects.order_by('name')
+	except Deck.DoesNotExist:
+		context={'deck_list':deck_list,'card_list':card_list}
+		return render(request, 'mydecks.html', context)
+	context={'deck_list':deck_list,'card_list':card_list}
+	return render(request, 'mydecks.html', context)
 
 def card_rank(request):
-	return render_to_response('card_rank.html', locals())
+	cardinfos = CardInfo.objects.all()
+
+	context={'cardinfos': cardinfos}
+	return render(request, 'card_rank.html', context)
 
 def generic(request):
 	card_list =  CardInfo.objects.order_by('idName')
