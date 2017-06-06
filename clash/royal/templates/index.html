@@ -59,59 +59,43 @@
 									<h4>歡迎來到競技場！《部落衝突:皇室戰爭》將為您帶來前所未見的即時卡牌對戰體驗，在它簡單易上手的規則中蘊含著難以計量的深度策略等待您發掘，分秒必爭的戰局給您源源不絕的刺激體會。</h4>
 								</header>
 								<h2 id="Latest">最新資訊</h2>
-								<h4>4月19日平衡性調整！</h4>	
-								<a href="#" class="image main"><img src="{% static 'images/update0419.jpg' %}" alt="update0419.jpg" height="400"></a>
+								{% for fpost in firstpost %}
+									<h4>{{ fpost.title }}</h4>
+									
+									{% with 'images/'|add:fpost.ImgName as image_static %}
+										<a href="/royal/category/{{ fpost.ImgUrl }}" class="image main"><img src="{% static image_static %}" alt="{{fpost.ImgName}}" height="400"></a>
+										<p>{{fpost.shoutcut}}</p>
+									{% endwith %}
+								
+								
 								<ul class="actions">
-									<li><a href="#" class="button big">查看更多</a></li>
+									<li><a href="/royal/category/{{ fpost.ImgUrl }}" class="button big">查看更多</a></li>
 								</ul>
+								{% endfor %}
 							</article>
 
 						<!-- Posts -->
 							<section id="News" class="posts" >
-								<article>
-									<header>
-										<span class="date">March 3, 2017</span>
-										<h2><a href="#">更新： 全新聯盟賽、部落戰，還有其他精彩內容，敬請期待</a></h2>
-									</header>
-									<a href="#" class="image fit"><img src="{% static 'images/update0313-2.jpg' %}" alt="" height="400"/></a>
-									<p>本次更新 全新聯盟賽、部落對戰、新卡牌、新競技場，還有更多精采內容，敬請期待！</p>
-									<ul class="actions">
-										<li><a href="#" class="button">查看更多</a></li>
-									</ul>
-								</article>
-								<article>
-									<header>
-										<span class="date">March 3, 2017</span>
-										<h2><a href="#">3月13日平衡性調整</a></h2>
-									</header>
-									<a href="#" class="image fit"><img src="{% static 'images/update0313-1.jpg'%}" alt="" height="400"/></a>
-									<p>本輪平衡性調整中，我們將對一些卡牌進行小幅調整，以保持遊戲內卡牌資料的一致性，更好地改善遊戲平衡性。</p>
-									<ul class="actions">
-										<li><a href="#" class="button">查看更多</a></li>
-									</ul>
-								</article>
-								<article>
-									<header>
-										<span class="date">Faburary 13, 2017</span>
-										<h2><a href="#">2月13日平衡性調整！</a></h2>
-									</header>
-									<a href="#" class="image fit"><img src="{% static 'images/update0213.jpg' %}" alt="" /></a>
-									<p>本輪平衡性調整將削弱飛斧屠夫，同時將增強一些未得到充分利用的卡牌，...</p>
-									<ul class="actions">
-										<li><a href="#" class="button">查看更多</a></li>
-									</ul>
-								</article>
-								<article>
-									<header>
-										<span class="date">Janurary 23, 2017</span>
-										<h2><a href="#">1月23日平衡性調整！</a></h2>
-									</header>
-									<a href="#" class="image fit"><img src="{% static 'images/update0123.jpg' %}" alt="" /></a>
-									<p>本輪平衡性調整著眼於目前飽受爭議的精銳野蠻人，同時削弱了部分在防守端過於強大的卡牌，還有更多卡牌調整...</p>
-									<ul class="actions">
-										<li><a href="#" class="button">查看更多</a></li>
-									</ul>
-								</article>
+								{% for posts in posts %}
+								{% if forloop.first %}
+								{% else %}
+								<section id="News" class="posts" >
+									<article>
+										<header>
+											<span class="date">{{posts.update_date}}</span>
+											<h2><a href="/royal/category/{{ posts.ImgUrl }}">{{posts.title}}</a></h2>
+										</header>
+										{% with 'images/'|add:posts.ImgName as image_static %}
+											<a href="/royal/category/{{ posts.ImgUrl }}" class="image main"><img src="{% static image_static %}" alt="{{posts.ImgName}}" height="400"></a>
+										{% endwith %}
+										<p>{{posts.shoutcut}}</p>
+										<ul class="actions">
+											<li><a href="/royal/category/{{ posts.ImgUrl }}" class="button">查看更多</a></li>
+										</ul>
+									</article>
+								</section>
+								{% endif %}
+								{% endfor %}
 							</section>
 
 						<!-- Footer -->

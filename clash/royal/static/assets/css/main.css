@@ -2440,6 +2440,30 @@
 			display: none;
 		}
 
+/* Popup */
+	.popup {
+		float:right; /* must be floated for same cross browser position of larger image */
+		position:relative;		
+	}
+		.popup img { 
+			display: block;
+			margin: 1.5rem 0;
+			width: 99px;
+			vertical-align:top;
+		}
+		.popup:hover {
+			border:0; /* IE6 needs this to show large image */
+			z-index:1;
+		}
+		.popup span { 
+			position:absolute;
+			visibility:hidden;
+		}
+		.popup:hover span { 
+			visibility:visible;
+			bottom:37px; left:37px; 
+		}
+
 /* Image */
 
 	.image {
