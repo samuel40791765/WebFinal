@@ -40,6 +40,16 @@
 			visibility:visible;
 			bottom:37px; left:37px; 
 		}
+		.con1{position:relative;}
+		.popover {position: relative;z-index: 10;}
+		.chart {bottom: 400px;left: 50px;height: 200px; position: relative; z-index: 100;}
+		#chartdiv {
+  			width: 350%;
+  			height: 400px;
+  			visibility: hidden; 
+  			z-index: 100; 
+  			position: relative;
+		}
 
 	</style>
 	</head>
@@ -80,22 +90,24 @@
 									<span class="date">May 14, 2017</span>
 									<h1>Card Rank</h1>
 									<p>你不知道的，這裡都有</p>
+									
 								</header>
 								<div class="box">
 									<ul class="actions">
 									{% for cardinfos in cardinfos %}
 										{% with 'images/'|add:cardinfos.idName|add:".png" as image_static %}
-											<li>
-												<a class="popup"><img src="{% static image_static %}" alt="">
+											<li class="con1">
+												<div class="con1">
 													<span class="image half">
-														<img src="{% static image_static %}" alt="cardinfos.idName">
+														<img class="popover" id="{{cardinfos.id}}" src="{% static image_static %}" alt="cardinfos.idName" >
 													</span>
-												</a>
+												</div>
 											</li>	
 										{% endwith %}
 									{% endfor %}
 									</ul>
 								</div>
+								
 
 					</div>
 
@@ -125,6 +137,7 @@
 							</h3>
 							</section>
 						</section>
+
 					</footer>
 
 				<!-- Copyright -->
@@ -135,12 +148,81 @@
 			</div>
 
 		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/skel.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+
+			<script src="{% static 'assets/js/jquery.min.js'%}"></script>
+			<script src="{% static 'assets/js/jquery.scrollex.min.js'%}"></script>
+			<script src="{% static 'assets/js/jquery.scrolly.min.js'%}"></script>
+			<script src="{% static 'assets/js/skel.min.js'%}"></script>
+			<script src="{% static 'assets/js/util.js'%}"></script>
+			<script src="{% static 'assets/js/main.js'%}"></script>
+			<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+			<script src="https://www.amcharts.com/lib/3/radar.js"></script>
+			<script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+			<link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+			<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+
+			<script>
+				$('.popover').on({
+				    mousemove: function(e) {
+				        $(this).next('img').css({
+				            top: e.pageY - 260,
+				            left: e.pageX + 10
+				        });
+				    },
+				    mouseenter: function() {
+				    	var id=(this).id;
+				    	{% for cardinfos in cardinfos %}
+					    	if (id=={{cardinfos.id}}){
+					    		var rarity = "{{cardinfos.rarity}}";
+					    		var rarityI;
+					    		if(rarity=="Legendary") rarityI=4;
+					    		else if(rarity=="Epic") rarityI=3;
+					    		else if(rarity=="Rare") rarityI=2;
+					    		else if(rarity=="Common") rarityI=1;
+					  
+					    		var elixirCost = {{cardinfos.elixirCost}};
+					    		var arena = {{cardinfos.arena}};
+					    	}	
+					    	
+				    	{% endfor %}
+				        var big = $('<div />', {'class': 'chart','id':'chartdiv', src: this.src});
+				        $(this).after(big);
+				        var chart = AmCharts.makeChart( "chartdiv", {
+						  "type": "radar",
+						  "theme": "light",
+						  "dataProvider": [ {
+						    "country": "rarity",
+						    "litres": rarityI
+						  }, {
+						    "country": "elixirCos",
+						    "litres": elixirCost
+						  }, {
+						    "country": "arena",
+						    "litres": arena
+						  } ],
+						  "valueAxes": [ {
+						    "axisTitleOffset": 20,
+						    "minimum": 0,
+						    "axisAlpha": 0.15
+						  } ],
+						  "startDuration": 2,
+						  "graphs": [ {
+						    "balloonText": "[[value]] litres of beer per year",
+						    "bullet": "round",
+						    "lineThickness": 2,
+						    "valueField": "litres"
+						  } ],
+						  "categoryField": "country",
+						  "export": {
+						    "enabled": true
+						  }
+						} );
+				    },
+				    mouseleave: function() {
+				        $('.chart').remove();
+				    }
+				});
+			</script>
 
 	</body>
 </html>
