@@ -5,8 +5,38 @@ from .forms import *
 from .models import *
 
 # Create your views here.
+
 def index(request):
-	return render_to_response('index.html',locals())
+    # Obtain the context from the HTTP request.
+    #context = RequestContext(request)
+    firstpost=UpdateInfo.objects.order_by('update_date').reverse()[:1]
+    posts = UpdateInfo.objects.order_by('update_date').reverse()[:5]
+
+    context_dict={'firstpost':firstpost, 'posts': posts}
+	#for category in category_list:
+        #category.url = category.name.replace(' ', '_')
+
+    # Render the response and return to the client.
+    return render(request, 'index.html', context_dict)
+
+def category(request, category_name_url):
+    category_name = category_name_url
+
+    # Create a context dictionary which we can pass to the template rendering engine.
+    # We start by containing the name of the category passed by the user.
+    context_dict = {'category_name': category_name}
+
+    try:
+        
+        post = UpdateInfo.objects.get(ImgUrl=category_name)
+
+        # Adds our results list to the template context under name pages.
+        context_dict['post'] = post
+    except UpdateInfo.DoesNotExist:
+        pass
+
+    # Go render the response and return it to the client.
+    return render(request, 'category.html', context_dict)
 
 @csrf_exempt
 def deck(request):
@@ -254,7 +284,10 @@ def deck_edit(request,pk):
 
 
 def card_rank(request):
-	return render_to_response('card_rank.html', locals())
+	cardinfos = CardInfo.objects.all()
+
+	context={'cardinfos': cardinfos}
+	return render(request, 'card_rank.html', context)
 
 def generic(request):
 	card_list =  CardInfo.objects.order_by('idName')
