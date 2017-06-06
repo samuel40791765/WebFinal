@@ -244,7 +244,6 @@ def deck_edit(request,pk):
 			search.arena=request.POST.get("arenaSearch")
 			search.typeof=request.POST.get("typeSearch")
 			search.save()
-
 	else:
 		form = DeckForm(instance=deck)
 	
@@ -258,5 +257,17 @@ def card_rank(request):
 
 def generic(request):
 	card_list =  CardInfo.objects.order_by('idName')
-	context = {'card_list':card_list}
+	search = SearchMethod.objects.get(id=1)
+	if request.method == "POST":
+		if request.POST['action'] == "filter":
+			search.rarity = request.POST.get("raritySearch")
+			search.elixir = request.POST.get("elixirSearch")
+			search.arena = request.POST.get("arenaSearch")
+			search.typeof = request.POST.get("typeSearch")
+			search.save()
+	context = {'card_list': card_list,
+            'rarity': search.rarity,
+            'elixir': search.elixir,
+            'arena': search.arena,
+            'typeof': search.typeof}
 	return render(request, 'generic.html', context)
