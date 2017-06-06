@@ -48,10 +48,32 @@
 		-webkit-text-size-adjust: none;
 	}
 
-	
+
+	.deckcard{
+		position: relative;
+	}
 
 	.averageelixer{
 		color:purple;
+	}
+	.cardname{
+		font: 100%/100% Helvetica, Sans-Serif; 
+		color:#4F566C;
+		text-align: center;
+	}
+
+	.elixir { 
+	   position: absolute; 
+	   top: 2%; 
+	   left: 2%;
+	   color:#E17FDD;
+	   border-radius: 25px;
+	   text-align: center;
+	   font: bold 24px/45px Helvetica, Sans-Serif; 
+   		background: rgb(0, 0, 0); /* fallback color */
+   		background: rgba(0, 0, 0, 0.7);
+   		padding: 2%;  
+	   	width: 20%; 
 	}
 
 /* Box Model */
@@ -2475,6 +2497,7 @@
 		}
 
 		.image.fit {
+			display: inline-block;
 			display: block;
 			margin: 2.5rem 0;
 			width: 100%;

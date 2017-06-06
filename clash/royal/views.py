@@ -61,7 +61,6 @@ def deck(request):
 		checkdeck = CardInfo.objects.order_by('elixirCost')
 		currentDeck = []
 		form = DeckForm(request.POST, prefix="deck")
-		print(request.POST['action'])
 		if form.is_valid() and len(Deck)== 8:
 			deck=form.save(commit=False)
 			deck.cost=averagecost
@@ -108,7 +107,7 @@ def deck(request):
 
 def mydecks(request):
 	deck_list = Deck.objects.order_by('name')
-	card_list = CardInfo.objects.order_by('id')
+	card_list = CardInfo.objects.order_by('elixirCost')
 	context={'deck_list':deck_list,'card_list':card_list}
 	return render(request, 'mydecks.html', context)
 
@@ -282,6 +281,18 @@ def deck_edit(request,pk):
 	'rarity':search.rarity,'elixir':search.elixir,'arena':search.arena,'typeof':search.typeof}
 	return render(request, 'deck_edit.html', context)
 
+def deck_delete(request,pk):
+	deck_list = Deck.objects.order_by('name')
+	card_list = CardInfo.objects.order_by('id')
+	try:
+		deck = Deck.objects.get(pk=pk)
+		deck.delete();
+		deck_list = Deck.objects.order_by('name')
+	except Deck.DoesNotExist:
+		context={'deck_list':deck_list,'card_list':card_list}
+		return render(request, 'mydecks.html', context)
+	context={'deck_list':deck_list,'card_list':card_list}
+	return render(request, 'mydecks.html', context)
 
 def card_rank(request):
 	cardinfos = CardInfo.objects.all()
