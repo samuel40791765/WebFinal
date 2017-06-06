@@ -4,110 +4,226 @@
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 {% load staticfiles %}
 <html>
-	<head>
-		<title>Generic Page - Massively by HTML5 UP</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="{% static 'assets/css/main.css' %}" />
-		<link href="http://newsimg.5054399.com/sjyx/v6/css/style_e8.css" rel="stylesheet" type="text/css" />
-		<noscript><link rel="stylesheet" href="{% static 'assets/css/noscript.css' %}" /></noscript>
-	</head>
-	<body class="is-loading">
 
-		<!-- Wrapper -->
-			<div id="wrapper">
+<head>
+	<title>卡牌介紹</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="{% static 'assets/css/main.css' %}" />
+	<link href="http://newsimg.5054399.com/sjyx/v6/css/style_e8.css" rel="stylesheet" type="text/css" />
+	<noscript>
+		<link rel="stylesheet" href="{% static 'assets/css/noscript.css' %}" />
+	</noscript>
+</head>
 
-				<!-- Header -->
-					<header id="header">
-						<a href="index.html" class="logo">卡片介紹</a>
-					</header>
+<body class="is-loading">
 
-				<!-- Nav -->
-					<nav id="nav">
-						<ul class="links">
-							<li><a href={% url 'index' %}>首頁</a></li>
-							<li class="active"><a href={% url 'generic' %}>卡片介紹</a></li>
-							<li><a href={% url 'card_rank' %}>卡片排名</a></li>
-							<li><a href={% url 'deck' %}>排組組合</a></li>
+	<!-- Wrapper -->
+	<div id="wrapper">
+
+		<!-- Header -->
+		<header id="header">
+			<a href="index.html" class="logo">卡片介紹</a>
+		</header>
+
+		<!-- Nav -->
+		<nav id="nav">
+			<ul class="links">
+				<li><a href={% url 'index' %}>首頁</a></li>
+				<li class="active"><a href={% url 'generic' %}>卡片介紹</a></li>
+				<li><a href={% url 'card_rank' %}>卡片排名</a></li>
+				<li><a href={% url 'deck' %}>排組組合</a></li>
+			</ul>
+			<ul class="icons">
+				<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+				<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+				<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+				<li><a href="#" class="icon fa-github"><span class="label">GitHub</span></a></li>
+			</ul>
+		</nav>
+
+		<!-- Main -->
+		<div id="main">
+			<!-- Post -->
+			<section class="post">
+				<header class="major">
+					<h1>卡片介紹</h1>
+					<p>現在不用再一張張查
+						<br /> 皇室戰爭!輕鬆娛樂好上手！
+					</p>
+				</header>
+				<div class="box">
+					<div class="row 50% uniform">
+						<div class="3u">
+							<select id="raritySearch">
+													<option value="None" {% if rarity == 'None' %}selected{% endif %} >filter rarity</option>
+													<option value="Common" {% if rarity == 'Common' %}selected{% endif %} >Common</option>
+													<option value="Rare" {% if rarity == 'Rare' %}selected{% endif %}>Rare</option>
+													<option value="Epic" {% if rarity == 'Epic' %}selected{% endif %} >Epic</option>
+												</select>
+						</div>
+						<div class="3u">
+							<select id="typeSearch">
+													<option value="None" {% if typeof == 'None' %}selected{% endif %} >filter type</option>
+													<option value="Troop" {% if typeof == 'Troop' %}selected{% endif %}>Troop</option>
+													<option value="Spell" {% if typeof == 'Spell' %}selected{% endif %} >Spell</option>
+													<option value="Building" {% if typeof == 'Building' %}selected{% endif %}>Building</option>
+												</select>
+						</div>
+						<div class="3u">
+							<select id="elixirSearch">
+													<option value="0"{% if elixir == 0 %}selected{% endif %}>filter elixir cost</option>
+													<option value="1"{% if elixir == 1 %}selected{% endif %}>1 Elixir</option>
+													<option value="2"{% if elixir == 2 %}selected{% endif %}>2 Elixir</option>
+													<option value="3"{% if elixir == 3 %}selected{% endif %}>3 Elixir</option>
+													<option value="4"{% if elixir == 4 %}selected{% endif %}>4 Elixir</option>
+													<option value="5"{% if elixir == 5 %}selected{% endif %}>5 Elixir</option>
+													<option value="6"{% if elixir == 6 %}selected{% endif %}>6 Elixir</option>
+													<option value="7"{% if elixir == 7 %}selected{% endif %}>7 Elixir</option>
+													<option value="8"{% if elixir == 8 %}selected{% endif %}>8 Elixir</option>
+													<option value="9"{% if elixir == 9 %}selected{% endif %}>9 Elixir</option>
+													<option value="10"{% if elixir == 10 %}selected{% endif %}>10 Elixir</option>
+												</select>
+						</div>
+						<div class="3u$">
+							<select id="arenaSearch">
+													<option value="-1"{% if arena == -1 %}selected{% endif %}>filter arena lvl</option>
+													<option value="1"{% if arena == 1 %}selected{% endif %}>Arena 1 (and below)</option>
+													<option value="2"{% if arena == 2 %}selected{% endif %}>Arena 2 (and below)</option>
+													<option value="3"{% if arena == 3 %}selected{% endif %}>Arena 3 (and below)</option>
+													<option value="4"{% if arena == 4 %}selected{% endif %}>Arena 4 (and below)</option>
+													<option value="5"{% if arena == 5 %}selected{% endif %}>Arena 5 (and below)</option>
+													<option value="6"{% if arena == 6 %}selected{% endif %}>Arena 6 (and below)</option>
+													<option value="7"{% if arena == 7 %}selected{% endif %}>Arena 7 (and below)</option>
+													<option value="8"{% if arena == 8 %}selected{% endif %}>Arena 8 (and below)</option>
+													<option value="9"{% if arena == 9 %}selected{% endif %}>Arena 9 (and below)</option>
+													<option value="10"{% if arena == 10 %}selected{% endif %}>Arena 10 (and below)</option>
+												</select>
+						</div>
+						<ul class="actions">
+							<li>
+								<button id="clear" class="btn btn-large"><i class="fa fa-minus-circle"></i> clear filters</button>
+							</li>
+							<li>
+								<button id="reset" class="btn btn-large"><i class="fa fa-random"></i> reset</button>
+							</li>
 						</ul>
-						<ul class="icons">
-							<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
-							<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
-							<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
-							<li><a href="#" class="icon fa-github"><span class="label">GitHub</span></a></li>
-						</ul>
-					</nav>
-
-				<!-- Main -->
-					<div id="main">
-						<!-- Post -->
-							<section class="post">
-								<header class="major">
-									<h1>卡片介紹</h1>
-									<p>現在不用再一張張查
-									<br /> 皇室戰爭!輕鬆娛樂好上手！
-									</p>
-								</header>
-									<div class="box">
-										<ul class="listImg2">
-											{% for CardInfo in card_list %} 
-												{% with 'images/'|add:CardInfo.idName|add:".png" as image_static %}
-													<li>
-														<a href="#"><img src="{% static image_static %}" alt="">{{ CardInfo.name }}</a>
-													</li>
-												{% endwith %} 
-											{% endfor %}
-										</ul>
-									</div>
-							</section>
 					</div>
+				</div>
+				<div class="box">
+					<ul class="listImg2">
+						{% for CardInfo in card_list %} 
+						{% if rarity == 'None' or CardInfo.rarity == rarity %} 
+						{% if typeof == 'None' or CardInfo.type == typeof %} 
+						{% if elixir == 0 or CardInfo.elixirCost == elixir %} 
+						{% if arena == -1 or CardInfo.arena <= arena %}
+						{% with 'images/'|add:CardInfo.idName|add:".png" as image_static %}
+						<li style="display: block;">
+							<a href="#"><img src="{% static image_static %}" alt="">{{ CardInfo.name }}</a>
+						</li>
+						{% endwith %}												
+						{% endif %}
+						{% endif %}
+						{% endif %}
+						{% endif %}
+						{% endfor %}
+					</ul>
+				</div>
+			</section>
+		</div>
 
-				<!-- Footer -->
-					<footer id="footer">
-						<section class="split contact">
-							<section>
-								<h3><a href="https://supercell.helpshift.com/a/clash-royale/?p=web&amp;l=zh-hant" target="_blank">玩家支援</a></h3>
-								<h3><a href="http://forum.supercell.net/forumdisplay.php/107-Clash-Royale" target="_blank">論壇</a></h3>
-								<h3 align="right"><a href="https://47428.measurementapi.com/serve?action=click&amp;publisher_id=47428&amp;site_id=115659&amp;my_site=clash_website"
-									 target="_blank"><img src="{% static 'images/app_store.png'%}" alt="App Store Download" height="40" width="130"/></a>									<a href="https://47428.measurementapi.com/serve?action=click&amp;publisher_id=47428&amp;site_id=120233&amp;my_site=clash_website"
-									 target="_blank"><img src="{% static 'images/google_play.png' %}" alt="Google Play Download" height="40" width="130"/></a></h3>
-							</section>
-							<section>
-								<h3 align="left">
-									<h6>Social
-										<ul class="icons alt">
-											<li><a href="https://twitter.com/ClashRoyale" class="icon alt fa-twitter" target="_blank"><span class="label">Twitter</span></a></li>
-											<li><a href="https://www.facebook.com/ClashRoyaleTW/?brand_redir=947530375318595" target="_blank" class="icon alt fa-facebook"><span class="label">Facebook</span></a></li>
-											<li><a href="https://www.instagram.com/ClashRoyale/" target="_blank" class="icon alt fa-instagram"><span class="label">Instagram</span></a></li>
-											<li><a href="https://github.com/samuel40791765/WebFinal" target="_blank" class="icon alt fa-github"><span class="label">GitHub</span></a></li>
-										</ul>
-									</h6>
-									<h4 align="left">
-										<img src="{% static 'images/12+.png'%}" height="40" width="40" /><span>本遊戲部分情節涉及暴力</span>
-										<span>本遊戲部分情節涉及暴力，避免沉迷於遊戲</span>
-										<span>本遊戲為免費使用，遊戲內容另提供購買虛擬寶石等付費服務</span>
-									</h4>
-								</h3>
-							</section>
-						</section>
-					</footer>
+		<!-- Footer -->
+		<footer id="footer">
+			<section class="split contact">
+				<section>
+					<h3><a href="https://supercell.helpshift.com/a/clash-royale/?p=web&amp;l=zh-hant" target="_blank">玩家支援</a></h3>
+					<h3><a href="http://forum.supercell.net/forumdisplay.php/107-Clash-Royale" target="_blank">論壇</a></h3>
+					<h3 align="right"><a href="https://47428.measurementapi.com/serve?action=click&amp;publisher_id=47428&amp;site_id=115659&amp;my_site=clash_website"
+						 target="_blank"><img src="{% static 'images/app_store.png'%}" alt="App Store Download" height="40" width="130"/></a>						<a href="https://47428.measurementapi.com/serve?action=click&amp;publisher_id=47428&amp;site_id=120233&amp;my_site=clash_website"
+						 target="_blank"><img src="{% static 'images/google_play.png' %}" alt="Google Play Download" height="40" width="130"/></a></h3>
+				</section>
+				<section>
+					<h3 align="left">
+						<h6>Social
+							<ul class="icons alt">
+								<li><a href="https://twitter.com/ClashRoyale" class="icon alt fa-twitter" target="_blank"><span class="label">Twitter</span></a></li>
+								<li><a href="https://www.facebook.com/ClashRoyaleTW/?brand_redir=947530375318595" target="_blank" class="icon alt fa-facebook"><span class="label">Facebook</span></a></li>
+								<li><a href="https://www.instagram.com/ClashRoyale/" target="_blank" class="icon alt fa-instagram"><span class="label">Instagram</span></a></li>
+								<li><a href="https://github.com/samuel40791765/WebFinal" target="_blank" class="icon alt fa-github"><span class="label">GitHub</span></a></li>
+							</ul>
+						</h6>
+						<h4 align="left">
+							<img src="{% static 'images/12+.png'%}" height="40" width="40" /><span>本遊戲部分情節涉及暴力</span>
+							<span>本遊戲部分情節涉及暴力，避免沉迷於遊戲</span>
+							<span>本遊戲為免費使用，遊戲內容另提供購買虛擬寶石等付費服務</span>
+						</h4>
+					</h3>
+				</section>
+			</section>
+		</footer>
 
-				<!-- Copyright -->
-					<div id="copyright">
-						<ul><li>&copy; Untitled</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li></ul>
-					</div>
+		<!-- Copyright -->
+		<div id="copyright">
+			<ul>
+				<li>&copy; Untitled</li>
+				<li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+			</ul>
+		</div>
 
-			</div>
+	</div>
 
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/skel.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+	<!-- Scripts -->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/jquery.scrollex.min.js"></script>
+	<script src="assets/js/jquery.scrolly.min.js"></script>
+	<script src="assets/js/skel.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
+	<script>		
+		function getCookie(name) {
+			var cookieValue = null;
+				if (document.cookie && document.cookie != '') {
+					var cookies = document.cookie.split(';');
+					for (var i = 0; i < cookies.length; i++) {
+						var cookie = jQuery.trim(cookies[i]);
+						// Does this cookie string begin with the name we want?
+						if (cookie.substring(0, name.length + 1) == (name + '=')) {
+							cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+							break;
+						}
+					}
+				}
+				return cookieValue;
+			}
+		var csrftoken = getCookie('csrftoken');
+		$('select').on('change', function () {
+			filter()
+		})
+		function filter() {
+			info = {
+				"action": "filter",
+				"raritySearch": document.getElementById("raritySearch").value,
+				"typeSearch": document.getElementById("typeSearch").value,
+				"elixirSearch": document.getElementById("elixirSearch").value,
+				"arenaSearch": document.getElementById("arenaSearch").value,
+				'csrfmiddlewaretoken': csrftoken
+			}
 
-	</body>
+			$.ajax({
+				url: "{% url 'generic' %}",
+				type: "POST",
+				"data": info,
+				success: function (response) {
+					document.location.reload(true)
+				},
+			});
+		}
+	</script>
+
+</body>
+
 </html>
