@@ -64,6 +64,7 @@
 													<option value="Common" {% if rarity == 'Common' %}selected{% endif %} >Common</option>
 													<option value="Rare" {% if rarity == 'Rare' %}selected{% endif %}>Rare</option>
 													<option value="Epic" {% if rarity == 'Epic' %}selected{% endif %} >Epic</option>
+													<option value="Legendary" {% if rarity == 'Legendary' %}selected{% endif %} >Legendary</option>
 												</select>
 						</div>
 						<div class="3u">
@@ -104,27 +105,26 @@
 													<option value="10"{% if arena == 10 %}selected{% endif %}>Arena 10 (and below)</option>
 												</select>
 						</div>
-						<ul class="actions">
-							<li>
-								<button id="clear" class="btn btn-large"><i class="fa fa-minus-circle"></i> clear filters</button>
-							</li>
-							<li>
-								<button id="reset" class="btn btn-large"><i class="fa fa-random"></i> reset</button>
-							</li>
-						</ul>
 					</div>
 				</div>
 				<div class="box">
-					<ul class="listImg2">
+					<ul class="actions">
 						{% for CardInfo in card_list %} 
 						{% if rarity == 'None' or CardInfo.rarity == rarity %} 
 						{% if typeof == 'None' or CardInfo.type == typeof %} 
 						{% if elixir == 0 or CardInfo.elixirCost == elixir %} 
 						{% if arena == -1 or CardInfo.arena <= arena %}
 						{% with 'images/'|add:CardInfo.idName|add:".png" as image_static %}
-						<li style="display: block;">
-							<a href="#"><img src="{% static image_static %}" alt="">{{ CardInfo.name }}</a>
-						</li>
+							<li>
+							<div class="card">
+ 								<span class="image half">
+ 									<a target="_blank" href=/royal/single/{{CardInfo.idName}}>
+ 										<img src="{% static image_static %}" alt=""></a>
+         							<p class="elixir">{{CardInfo.elixirCost}}</p>
+         							<p class="cardname">{{CardInfo.name}}</p>
+	        					</span>
+	        				</div>
+	        				</li>
 						{% endwith %}												
 						{% endif %}
 						{% endif %}
@@ -168,21 +168,18 @@
 
 		<!-- Copyright -->
 		<div id="copyright">
-			<ul>
-				<li>&copy; Untitled</li>
-				<li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
-			</ul>
-		</div>
+						<ul><li>&copy; NTUST</li><li>Design: <a href="https://github.com/NTUST/106-team10" target="blank">Team 106-10</a></li></ul>
+					</div>
 
 	</div>
 
 	<!-- Scripts -->
-	<script src="assets/js/jquery.min.js"></script>
-	<script src="assets/js/jquery.scrollex.min.js"></script>
-	<script src="assets/js/jquery.scrolly.min.js"></script>
-	<script src="assets/js/skel.min.js"></script>
-	<script src="assets/js/util.js"></script>
-	<script src="assets/js/main.js"></script>
+	<script src="{% static 'assets/js/jquery.min.js'%}"></script>
+	<script src="{% static 'assets/js/jquery.scrollex.min.js'%}"></script>
+	<script src="{% static 'assets/js/jquery.scrolly.min.js'%}"></script>
+	<script src="{% static 'assets/js/skel.min.js'%}"></script>
+	<script src="{% static 'assets/js/util.js'%}"></script>
+	<script src="{% static 'assets/js/main.js'%}"></script>
 	<script>		
 		function getCookie(name) {
 			var cookieValue = null;
@@ -222,6 +219,7 @@
 				},
 			});
 		}
+
 	</script>
 
 </body>

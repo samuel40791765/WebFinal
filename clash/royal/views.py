@@ -315,3 +315,7 @@ def generic(request):
             'arena': search.arena,
             'typeof': search.typeof}
 	return render(request, 'generic.html', context)
+def single(request, cardidName):
+	card = CardInfo.objects.get(idName = cardidName) 
+	context = {'card': card }
+	return render(request, 'single.html', context)

@@ -1,0 +1,43 @@
+{% load staticfiles %}
+{% with 'images/'|add:card.idName|add:".png" as image_static %}
+<p style="text-align: center;"><img src="{% static image_static %}"></p>
+{% endwith %}
+<style>
+    table, th, td {
+    border: 1px solid black;
+    border-color: grey;
+    }
+</style>
+<table data-sort="sortDisabled" align="center">
+    <tbody>
+        <tr class="firstRow">
+            <td style="word-break: break-all;" valign="top" width="188">名稱</td>
+            <td style="word-break: break-all;" valign="top" width="188">{{card.name}}</td>
+            <td style="word-break: break-all;" valign="top" width="188">稀有度</td>
+            <td style="word-break: break-all;" valign="top" width="188">{{card.rarity}}</td>
+        </tr>
+        <tr>
+            <td style="word-break: break-all;" valign="top" width="188">類別</td>
+            <td style="word-break: break-all;" valign="top" width="188">{{card.type}}</td>
+            <td style="word-break: break-all;" valign="top" width="188">消耗</td>
+            <td style="word-break: break-all;" valign="top" width="188">{{card.elixirCost}}</td>
+        </tr>
+        <tr>
+            <td style="word-break: break-all;" valign="top" width="188">解鎖區域</td>
+            {% if card.arena == 0 %}
+            <td style="word-break: break-all;" valign="top" width="188">新手競技場</td>
+            {% else %}
+            <td style="word-break: break-all;" valign="top" width="188"> {{card.arena}}階競技場</td>
+            {% endif %}
+
+        </tr>
+        <tr>
+            <td colspan="4" rowspan="1" style="word-break: break-all;" align="center" valign="middle">描述</td>
+        </tr>
+        <tr>
+            <td colspan="4" rowspan="1" style="word-break: break-all;" align="center" valign="middle">{{card.description}}</td>
+        </tr>
+        </tr>
+    </tbody>
+</table>
+<p><br/></p>
