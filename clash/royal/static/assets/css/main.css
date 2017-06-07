@@ -2513,7 +2513,7 @@
 			}
 
 		.image.half {
-			display: block;
+			display: inline-block;
 			margin: 2.5rem 0;
 			width: 99px;
 		}
