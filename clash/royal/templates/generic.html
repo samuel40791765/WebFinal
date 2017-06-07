@@ -37,12 +37,13 @@
 				<li class="active"><a href={% url 'generic' %}>卡片介紹</a></li>
 				<li><a href={% url 'card_rank' %}>卡片排名</a></li>
 				<li><a href={% url 'deck' %}>排組組合</a></li>
+				<li><a href={% url 'mydecks' %}>我的排組組合</a></li>
 			</ul>
 			<ul class="icons">
-				<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
-				<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
-				<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
-				<li><a href="#" class="icon fa-github"><span class="label">GitHub</span></a></li>
+				<li><a href="https://twitter.com/ClashRoyale" class="icon alt fa-twitter" target="_blank"><span class="label">Twitter</span></a></li>
+				<li><a href="https://www.facebook.com/ClashRoyaleTW/?brand_redir=947530375318595" target="_blank" class="icon alt fa-facebook"><span class="label">Facebook</span></a></li>
+				<li><a href="https://www.instagram.com/ClashRoyale/" target="_blank" class="icon alt fa-instagram"><span class="label">Instagram</span></a></li>
+				<li><a href="https://github.com/samuel40791765/WebFinal" target="_blank" class="icon alt fa-github"><span class="label">GitHub</span></a></li>
 			</ul>
 		</nav>
 
@@ -64,6 +65,7 @@
 													<option value="Common" {% if rarity == 'Common' %}selected{% endif %} >Common</option>
 													<option value="Rare" {% if rarity == 'Rare' %}selected{% endif %}>Rare</option>
 													<option value="Epic" {% if rarity == 'Epic' %}selected{% endif %} >Epic</option>
+													<option value="Legendary" {% if rarity == 'Legendary' %}selected{% endif %} >Legendary</option>
 												</select>
 						</div>
 						<div class="3u">
@@ -104,14 +106,14 @@
 													<option value="10"{% if arena == 10 %}selected{% endif %}>Arena 10 (and below)</option>
 												</select>
 						</div>
-						<ul class="actions">
+						<!-- <ul class="actions">
 							<li>
 								<button id="clear" class="btn btn-large"><i class="fa fa-minus-circle"></i> clear filters</button>
 							</li>
 							<li>
 								<button id="reset" class="btn btn-large"><i class="fa fa-random"></i> reset</button>
 							</li>
-						</ul>
+						</ul> -->
 					</div>
 				</div>
 				<div class="box">
@@ -122,9 +124,16 @@
 						{% if elixir == 0 or CardInfo.elixirCost == elixir %} 
 						{% if arena == -1 or CardInfo.arena <= arena %}
 						{% with 'images/'|add:CardInfo.idName|add:".png" as image_static %}
-						<li style="display: block;">
-							<a href="#"><img src="{% static image_static %}" alt="">{{ CardInfo.name }}</a>
-						</li>
+							<li>
+							<div class="card">
+ 								<span class="image half">
+ 									<a target="_blank" href=/royal/single/{{CardInfo.idName}}>
+ 										<img src="{% static image_static %}" alt=""></a>
+         							<p class="elixir">{{CardInfo.elixirCost}}</p>
+         							<p class="cardname">{{CardInfo.name}}</p>
+	        					</span>
+	        				</div>
+	        				</li>
 						{% endwith %}												
 						{% endif %}
 						{% endif %}

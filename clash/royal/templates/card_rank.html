@@ -42,15 +42,22 @@
 		}
 		.con1{position:relative;}
 		.popover {position: relative;z-index: 10;}
-		.chart {bottom: 400px;left: 50px;height: 200px; position: relative; z-index: 100;}
+		/*.chart {bottom: 400px;left: 50px;height: 200px; position: relative; z-index: 100;border-radius: 25px;
+  			background: rgb(189, 210, 247);}*/
 		#chartdiv {
-  			width: 350%;
+			bottom: 0px;left: -50px;
+  			width: 500%;
   			height: 400px;
-  			visibility: hidden; 
   			z-index: 100; 
-  			position: relative;
+  			font-size: 30px;
+  			border-radius: 25px;
+  			opacity:0.97;
+  			position: absolute;
+  			background: rgb(232, 194, 175);
+  			background: -webkit-linear-gradient(top, rgba(232, 194, 175, 1) 0%, rgba(251,117,6, 1) 100%);
+  			background: -o-linear-gradient(top, rgba(232, 194, 175, 1) 0%, rgba(251,117,6, 1) 100%);
+  			
 		}
-
 	</style>
 	</head>
 	
@@ -72,6 +79,7 @@
 							<li><a href={% url 'generic' %}>卡片介紹</a></li>
 							<li class="active"><a href={% url 'card_rank' %}>卡片排名</a></li>
 							<li><a href={% url 'deck' %}>排組組合</a></li>
+							<li><a href={% url 'mydecks' %}>我的排組組合</a></li>
 						</ul>
 						<ul class="icons">
 							<li><a href="https://twitter.com/ClashRoyale" class="icon alt fa-twitter" target="_blank"><span class="label">Twitter</span></a></li>
@@ -96,7 +104,7 @@
 									<ul class="actions">
 									{% for cardinfos in cardinfos %}
 										{% with 'images/'|add:cardinfos.idName|add:".png" as image_static %}
-											<li class="con1">
+											<li>
 												<div class="con1">
 													<span class="image half">
 														<img class="popover" id="{{cardinfos.id}}" src="{% static image_static %}" alt="cardinfos.idName" >
@@ -155,13 +163,17 @@
 			<script src="{% static 'assets/js/skel.min.js'%}"></script>
 			<script src="{% static 'assets/js/util.js'%}"></script>
 			<script src="{% static 'assets/js/main.js'%}"></script>
-			<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
-			<script src="https://www.amcharts.com/lib/3/radar.js"></script>
-			<script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
-			<link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
-			<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+			<script src="{% static 'assets/amcharts/amcharts.js'%}"></script>
+			<script src="{% static 'assets/amcharts/radar.js'%}"></script>
+			<script src="{% static 'assets/amcharts/plugins/export/export.min.js'%}"></script>
+			<link rel="stylesheet" href="{% static 'assets/amcharts/plugins/export/export.css'%}" type="text/css" media="all" />
+			<script src="{% static 'assets/amcharts/themes/light.js'%}"></script>
+			<script src="{% static 'assets/amcharts/serial.js'%}"></script>
+
+			
 
 			<script>
+
 				$('.popover').on({
 				    mousemove: function(e) {
 				        $(this).next('img').css({
@@ -188,16 +200,23 @@
 				        var big = $('<div />', {'class': 'chart','id':'chartdiv', src: this.src});
 				        $(this).after(big);
 				        var chart = AmCharts.makeChart( "chartdiv", {
-						  "type": "radar",
+						  "type": "serial",
 						  "theme": "light",
+						  "backgroundAlpha":0.1,
+						  "backgroundColor":"#2957E2",
+						  "handDrawn": {
+						    "enabled": true
+						  },
+						  "fontSize":15,
+						  "fontFamily":"Comic Sans MS",
 						  "dataProvider": [ {
-						    "country": "rarity",
+						    "country": "Rarity",
 						    "litres": rarityI
 						  }, {
-						    "country": "elixirCos",
+						    "country": "Elixir Cost",
 						    "litres": elixirCost
 						  }, {
-						    "country": "arena",
+						    "country": "Arena",
 						    "litres": arena
 						  } ],
 						  "valueAxes": [ {
@@ -205,20 +224,20 @@
 						    "minimum": 0,
 						    "axisAlpha": 0.15
 						  } ],
-						  "startDuration": 2,
+						  "startDuration": 1,
 						  "graphs": [ {
-						    "balloonText": "[[value]] litres of beer per year",
+						    "balloonText": "[[value]]",
 						    "bullet": "round",
 						    "lineThickness": 2,
 						    "valueField": "litres"
 						  } ],
 						  "categoryField": "country",
-						  "export": {
-						    "enabled": true
-						  }
+						  // "export": {
+						  //   "enabled": true
+						  // }
 						} );
 				    },
-				    mouseleave: function() {
+				    mouseout: function() {
 				        $('.chart').remove();
 				    }
 				});
