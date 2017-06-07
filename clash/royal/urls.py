@@ -6,6 +6,7 @@ urlpatterns = [
     url(r'^deck/$', views.deck,name='deck'),
     url(r'^card_rank/', views.card_rank,name='card_rank'),
     url(r'^generic/', views.generic,name='generic'),
+    url(r'^single/(?P<cardidName>\S+)/$', views.single, name='single'),
     url(r'^mydecks/', views.mydecks,name='mydecks'),
     url(r'^deck/(?P<pk>\d+)/edit/$', views.deck_edit, name='deck_edit'),
     url(r'^deck/(?P<pk>\d+)/delete/$', views.deck_delete, name='deck_delete'),
