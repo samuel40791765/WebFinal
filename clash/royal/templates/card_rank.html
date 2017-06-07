@@ -106,8 +106,8 @@
 										{% with 'images/'|add:cardinfos.idName|add:".png" as image_static %}
 											<li>
 												<div class="con1">
-													<span class="image half">
-														<img class="popover" id="{{cardinfos.id}}" src="{% static image_static %}" alt="cardinfos.idName" >
+													<span class="image half popover" id="{{cardinfos.id}}" >
+														<img class="" id="{{cardinfos.id}}" src="{% static image_static %}" alt="cardinfos.idName" >
 													</span>
 												</div>
 											</li>	
@@ -181,6 +181,7 @@
 				        });
 				    },
 				    mouseenter: function() {
+				    	console.log("enter");
 				    	var id=(this).id;
 				    	{% for cardinfos in cardinfos %}
 					    	if (id=={{cardinfos.id}}){
@@ -237,6 +238,7 @@
 						} );
 				    },
 				    mouseout: function() {
+				    	console.log("out");
 				        $('.chart').remove();
 				    }
 				});
