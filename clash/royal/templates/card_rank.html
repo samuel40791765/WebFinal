@@ -42,15 +42,20 @@
 		}
 		.con1{position:relative;}
 		.popover {position: relative;z-index: 10;}
-		.chart {bottom: 400px;left: 50px;height: 200px; position: relative; z-index: 100;}
+		/*.chart {bottom: 400px;left: 50px;height: 200px; position: relative; z-index: 100;border-radius: 25px;
+  			background: rgb(189, 210, 247);}*/
 		#chartdiv {
-  			width: 350%;
+			bottom: 400px;left: 50px;
+  			width: 500%;
   			height: 400px;
-  			visibility: hidden; 
   			z-index: 100; 
+  			font-size: 30px;
+  			border-radius: 25px;
   			position: relative;
+  			background: rgb(189, 210, 247);
+  			background: -webkit-linear-gradient(top, rgba(189, 210, 247, 1) 0%, rgba(79, 96, 165, 1) 100%);
+  			background: -o-linear-gradient(top, rgba(189, 210, 247, 1) 0%, rgba(79, 96, 165, 1) 100%);
 		}
-
 	</style>
 	</head>
 	
@@ -96,7 +101,7 @@
 									<ul class="actions">
 									{% for cardinfos in cardinfos %}
 										{% with 'images/'|add:cardinfos.idName|add:".png" as image_static %}
-											<li class="con1">
+											<li>
 												<div class="con1">
 													<span class="image half">
 														<img class="popover" id="{{cardinfos.id}}" src="{% static image_static %}" alt="cardinfos.idName" >
@@ -160,8 +165,10 @@
 			<script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
 			<link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
 			<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+			<script src="https://www.amcharts.com/lib/3/serial.js"></script>
 
 			<script>
+
 				$('.popover').on({
 				    mousemove: function(e) {
 				        $(this).next('img').css({
@@ -189,7 +196,13 @@
 				        $(this).after(big);
 				        var chart = AmCharts.makeChart( "chartdiv", {
 						  "type": "radar",
-						  "theme": "light",
+						  // "theme": "light",
+						  "backgroundAlpha":0.1,
+						  "backgroundColor":"#2957E2",
+						  "handDrawn": {
+						    "enabled": true
+						  },
+						  "fontSize":15,
 						  "dataProvider": [ {
 						    "country": "rarity",
 						    "litres": rarityI
@@ -205,17 +218,17 @@
 						    "minimum": 0,
 						    "axisAlpha": 0.15
 						  } ],
-						  "startDuration": 2,
+						  "startDuration": 1,
 						  "graphs": [ {
-						    "balloonText": "[[value]] litres of beer per year",
+						    "balloonText": "[[value]]",
 						    "bullet": "round",
 						    "lineThickness": 2,
 						    "valueField": "litres"
 						  } ],
 						  "categoryField": "country",
-						  "export": {
-						    "enabled": true
-						  }
+						  // "export": {
+						  //   "enabled": true
+						  // }
 						} );
 				    },
 				    mouseleave: function() {
