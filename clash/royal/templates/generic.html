@@ -123,6 +123,7 @@
 						{% if elixir == 0 or CardInfo.elixirCost == elixir %} 
 						{% if arena == -1 or CardInfo.arena <= arena %}
 						{% with 'images/'|add:CardInfo.idName|add:".png" as image_static %}
+							<li>
 							<div class="card">
  								<span class="image half">
  									<a target="_blank" href=/royal/single/{{CardInfo.idName}}>
@@ -131,6 +132,7 @@
          							<p class="cardname">{{CardInfo.name}}</p>
 	        					</span>
 	        				</div>
+	        				</li>
 						{% endwith %}												
 						{% endif %}
 						{% endif %}
